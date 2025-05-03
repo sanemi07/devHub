@@ -73,18 +73,31 @@ CLOUDINARY_API_SECRET=your_cloudinary_api_secret
 
 ## API Endpoints
 
-### Auth
+### Auth (`/users`)
 
-- `POST /users/register` — Register a new user
-- `POST /users/login` — Login with email and password
+- `POST /users/register` — Register a new user  
+  **Body:** `{ "userName": "string", "email": "string", "password": "string" }`
+- `POST /users/login` — Login with email and password  
+  **Body:** `{ "email": "string", "password": "string" }`
+- `POST /users/logout` — Logout the current user (requires authentication)
+- `POST /users/refresh` — Refresh access token using refresh token
+
+### Google OAuth (`/auth`)
+
 - `GET /auth/google` — Start Google OAuth
 - `GET /auth/google/callback` — Google OAuth callback
 
-### Profile
+### Profile (`/profile`)
 
-- `POST /profile/upload` — Upload a profile image (authenticated, multipart/form-data)
-- `POST /profile/change-profilepic` — Change profile image (authenticated, multipart/form-data)
-- `POST /profile/add-bio` — Add or update user bio (authenticated, JSON body: `{ "bio": "Your bio here" }`)
+- `POST /profile/upload` — Upload a profile image  
+  **Headers:** `Authorization: Bearer <token>`  
+  **Body:** `multipart/form-data` with `file` field
+- `POST /profile/change-profilepic` — Change profile image  
+  **Headers:** `Authorization: Bearer <token>`  
+  **Body:** `multipart/form-data` with `file` field
+- `POST /profile/add-bio` — Add or update user bio  
+  **Headers:** `Authorization: Bearer <token>`  
+  **Body:** `{ "bio": "Your bio here" }`
 
 ## Technologies Used
 

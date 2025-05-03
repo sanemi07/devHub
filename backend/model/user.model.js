@@ -44,10 +44,8 @@ const userSchema = new mongoose.Schema(
     ],
    googleId:{
     type:String
-   },
-   githubId:{
-    type:String
-   },
+   }
+   ,
    cloudinary_public_id: { type: String },
     role: {
       type: String,
@@ -85,7 +83,7 @@ userSchema.methods.generateAccessToken = function () {
   userSchema.methods.generateRefreshToken = function () {
     return jwt.sign(
       { email: this.email, id: this._id },
-      process.env.JWTACCESS,
+      process.env.JWTREFRESH,
       { expiresIn: '248h' }
     );
   };

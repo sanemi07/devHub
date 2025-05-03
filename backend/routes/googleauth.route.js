@@ -12,6 +12,7 @@ router.get(
   passport.authenticate('google', { session: false, failureRedirect: '/' }),
   async (req, res) => {
     const user = req.user;
+  
     const accessToken = user.generateAccessToken();
     const refreshToken = user.generateRefreshToken();
 

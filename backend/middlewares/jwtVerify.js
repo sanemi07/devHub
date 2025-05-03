@@ -1,6 +1,7 @@
-import jwt from 'jsonwebtoken';
+import jwt, { decode } from 'jsonwebtoken';
+import User from "../model/user.model.js";
 
-export const verifyToken = (req, res, next) => {
+export const verifyToken = async (req, res, next) => {
   const token = 
     req.cookies?.accessToken || 
     req.headers.authorization?.split(' ')[1]; // 'Bearer <token>'
@@ -8,9 +9,11 @@ export const verifyToken = (req, res, next) => {
   if (!token) {
     return res.status(401).json({ message: 'Access Denied' });
   }
+  
 
   try {
-    const decoded = jwt.verify(token, process.env.JWTACCESS);
+    const decoded = await jwt.verify(token, process.env.JWTACCESS);
+    
     req.user = decoded;
     next();
   } catch (err) {

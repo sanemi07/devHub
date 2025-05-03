@@ -1,6 +1,7 @@
 import {Router} from 'express'
 import {body} from 'express-validator'
-import { loginUser, registerUser } from '../controllers/user.controller.js';
+import { loginUser, logOutUser, refreshAccessToken, registerUser } from '../controllers/user.controller.js';
+import { verifyToken } from '../middlewares/jwtVerify.js';
 const router=Router();
 router.post(
     '/register',
@@ -33,5 +34,7 @@ router.post(
     ],
   loginUser
   );
+  router.post('/logout',verifyToken,logOutUser)
+  router.post('/refresh',refreshAccessToken)
 
 export default router
