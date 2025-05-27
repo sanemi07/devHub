@@ -1,12 +1,13 @@
 # DevHub
 
-DevHub is a full-stack web application that provides user authentication (including Google OAuth), profile management, and secure file uploads using Cloudinary. The backend is built with Node.js, Express, and MongoDB.
+DevHub is a full-stack web application that provides user authentication (including Google OAuth), profile management, posting, and secure file uploads using Cloudinary. The backend is built with Node.js, Express, and MongoDB.
 
 ## Features
 
 - User registration and login with JWT authentication
 - Google OAuth 2.0 login
-- Profile management (including profile picture upload/change and bio update)
+- Profile management (profile picture upload/change and bio update)
+- Create, edit, delete, and fetch posts (with optional image)
 - Secure password hashing with bcrypt
 - File uploads with Multer and Cloudinary integration
 - Modular code structure with controllers, services, and middlewares
@@ -98,6 +99,23 @@ CLOUDINARY_API_SECRET=your_cloudinary_api_secret
 - `POST /profile/add-bio` — Add or update user bio  
   **Headers:** `Authorization: Bearer <token>`  
   **Body:** `{ "bio": "Your bio here" }`
+
+### Posts (`/profile`)
+
+- `POST /profile/uploadPost` — Create a new post (with optional image)  
+  **Headers:** `Authorization: Bearer <token>`  
+  **Body:** `multipart/form-data` with optional `file` and `content` field
+- `GET /profile/getPosts` — Get all posts (paginated, requires authentication)  
+  **Headers:** `Authorization: Bearer <token>`  
+  **Query:** `page`, `limit`
+- `GET /profile/getpostFromUser` — Get posts from the authenticated user (paginated)  
+  **Headers:** `Authorization: Bearer <token>`  
+  **Query:** `page`, `limit`
+- `DELETE /profile/:id` — Delete a post by ID (only owner can delete)  
+  **Headers:** `Authorization: Bearer <token>`
+- `PUT /profile/editPost/:id` — Edit a post's content by ID (only owner can edit)  
+  **Headers:** `Authorization: Bearer <token>`  
+  **Body:** `{ "content": "Updated content" }`
 
 ## Technologies Used
 
