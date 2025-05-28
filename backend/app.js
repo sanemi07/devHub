@@ -17,11 +17,13 @@ import { connectDb } from './config/connectDb.js';
 import userRouter from './routes/user.route.js';
 import googleAuthRouter from "./routes/googleauth.route.js";
 import profileRouter from './routes/profile.route.js';
+import CommentRouter from './routes/comment.route.js';
 
 // ✅ Register routes
 app.use('/auth', googleAuthRouter);
 app.use('/users', userRouter);
 app.use('/profile', profileRouter);
+app.use('/comments', CommentRouter);
 
 connectDb();
 

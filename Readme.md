@@ -1,6 +1,6 @@
 # DevHub
 
-DevHub is a full-stack web application that provides user authentication (including Google OAuth), profile management, posting, and secure file uploads using Cloudinary. The backend is built with Node.js, Express, and MongoDB.
+DevHub is a full-stack web application that provides user authentication (including Google OAuth), profile management, posting, commenting, and secure file uploads using Cloudinary. The backend is built with Node.js, Express, and MongoDB.
 
 ## Features
 
@@ -8,6 +8,7 @@ DevHub is a full-stack web application that provides user authentication (includ
 - Google OAuth 2.0 login
 - Profile management (profile picture upload/change and bio update)
 - Create, edit, delete, and fetch posts (with optional image)
+- Commenting system with replies and moderation
 - Secure password hashing with bcrypt
 - File uploads with Multer and Cloudinary integration
 - Modular code structure with controllers, services, and middlewares
@@ -116,6 +117,30 @@ CLOUDINARY_API_SECRET=your_cloudinary_api_secret
 - `PUT /profile/editPost/:id` — Edit a post's content by ID (only owner can edit)  
   **Headers:** `Authorization: Bearer <token>`  
   **Body:** `{ "content": "Updated content" }`
+
+### Comments (`/comments`)
+
+- `POST /comments/createComment/:postId` — Create a comment on a post  
+  **Headers:** `Authorization: Bearer <token>`  
+  **Body:** `{ "content": "Your comment" }`
+- `GET /comments/getAllComment/:postId` — Get all comments for a post (paginated)  
+  **Headers:** `Authorization: Bearer <token>`  
+  **Query:** `page`, `limit`
+- `GET /comments/getCommentById/:commentId` — Get a specific comment by ID  
+  **Headers:** `Authorization: Bearer <token>`
+- `PUT /comments/editComment/:commentId` — Edit a comment (only author)  
+  **Headers:** `Authorization: Bearer <token>`  
+  **Body:** `{ "content": "Updated comment" }`
+- `DELETE /comments/deleteComment/:commentId` — Delete a comment (author or post owner)  
+  **Headers:** `Authorization: Bearer <token>`
+- `POST /comments/replyComment/:commentId` — Reply to a comment  
+  **Headers:** `Authorization: Bearer <token>`  
+  **Body:** `{ "content": "Reply content" }`
+- `GET /comments/getReplies/:commentId` — Get replies to a comment (paginated)  
+  **Headers:** `Authorization: Bearer <token>`  
+  **Query:** `page`, `limit`
+- `DELETE /comments/deleteReply/:replyId` — Delete a reply (only author)  
+  **Headers:** `Authorization: Bearer <token>`
 
 ## Technologies Used
 
