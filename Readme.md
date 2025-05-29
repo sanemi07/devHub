@@ -1,6 +1,6 @@
 # DevHub
 
-DevHub is a full-stack web application that provides user authentication (including Google OAuth), profile management, posting, commenting, and secure file uploads using Cloudinary. The backend is built with Node.js, Express, and MongoDB.
+DevHub is a full-stack web application that provides user authentication (including Google OAuth), profile management, posting, commenting, following/unfollowing users, and secure file uploads using Cloudinary. The backend is built with Node.js, Express, and MongoDB.
 
 ## Features
 
@@ -8,6 +8,7 @@ DevHub is a full-stack web application that provides user authentication (includ
 - Google OAuth 2.0 login
 - Profile management (profile picture upload/change and bio update)
 - Create, edit, delete, and fetch posts (with optional image)
+- Follow and unfollow users, view followers/following lists
 - Commenting system with replies and moderation
 - Secure password hashing with bcrypt
 - File uploads with Multer and Cloudinary integration
@@ -100,6 +101,20 @@ CLOUDINARY_API_SECRET=your_cloudinary_api_secret
 - `POST /profile/add-bio` — Add or update user bio  
   **Headers:** `Authorization: Bearer <token>`  
   **Body:** `{ "bio": "Your bio here" }`
+- `POST /profile/followUser/:id` — Follow a user  
+  **Headers:** `Authorization: Bearer <token>`
+- `POST /profile/unfollowUser/:id` — Unfollow a user  
+  **Headers:** `Authorization: Bearer <token>`
+- `GET /profile/getFollowers` — Get paginated list of followers  
+  **Headers:** `Authorization: Bearer <token>`  
+  **Query:** `page`, `limit`
+- `GET /profile/getFollowing` — Get paginated list of following  
+  **Headers:** `Authorization: Bearer <token>`  
+  **Query:** `page`, `limit`
+- `GET /profile/getUserProfile` — Get current user's profile (with followers/following count)  
+  **Headers:** `Authorization: Bearer <token>`
+- `GET /profile/getProfile/:id` — Get another user's profile by ID  
+  **Headers:** `Authorization: Bearer <token>`
 
 ### Posts (`/profile`)
 
@@ -117,6 +132,8 @@ CLOUDINARY_API_SECRET=your_cloudinary_api_secret
 - `PUT /profile/editPost/:id` — Edit a post's content by ID (only owner can edit)  
   **Headers:** `Authorization: Bearer <token>`  
   **Body:** `{ "content": "Updated content" }`
+- `POST /profile/likePost/:id` — Like a post  
+  **Headers:** `Authorization: Bearer <token>`
 
 ### Comments (`/comments`)
 

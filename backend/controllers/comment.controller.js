@@ -36,6 +36,7 @@ export const getComments = asyncHandler(async (req, res) => {
   const { postId } = req.params;
   const page = parseInt(req.query.page) || 1;
   const limit = parseInt(req.query.limit) || 10;
+  
 
   const postFound = await Post.findById(postId);
   if (!postFound) {

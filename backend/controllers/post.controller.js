@@ -131,4 +131,23 @@ export const editPost = asyncHandler(async (req, res) => {
 
   return res.status(200).json({ message: "Post edited successfully", post });
 });
-
+export const likePost = asyncHandler(async (req, res) => {
+  const { id: postId } = req.params;
+  const user = await User.findOne({ email: req.user.email });
+  const post = await Post.findById(postId);
+  if (!post) {
+    return res.status(404).json({ message: "Post not found" });
+  }
+  if (post.likes.includes(user._id)) {
+    // User already liked the post, so we remove the like
+    post.likes = post.likes.filter(like => like.toString() !== user._id.toString());
+  } else {
+    // User hasn't liked the post yet, so we add the like
+    post.likes.push(user._id);
+  }
+  await post.save();
+  return res.status(200).json({
+    message: post.likes.includes(user._id) ? "Post liked successfully" : "Post unliked successfully",
+    likesCount: post.likes.length
+  });
+})
